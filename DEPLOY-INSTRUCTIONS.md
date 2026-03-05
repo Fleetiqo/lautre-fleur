@@ -1,47 +1,48 @@
 # Deploy Instructions for L'Autre Fleur
 
 ## Current Status
-✅ All files are committed and ready
-✅ Workflow configured for master branch
+✅ Workflow fixed and configured for main branch (matching other sites)
+✅ All files committed and ready
 ✅ Build tested and working
 ✅ .nojekyll file in place
 
 ## What You Need to Do
 
-### Step 1: Push to GitHub
-Run this command in the lautre-fleur directory:
+### Step 1: Authenticate with GitHub
+You're getting a 403 error. Fix it with one of these:
+
+**Option A - GitHub CLI (easiest):**
 ```bash
-git push -u origin master
+gh auth login
 ```
 
-If you get a 403 error, authenticate with GitHub first using one of these methods:
-- Use GitHub CLI: `gh auth login`
-- Use SSH instead of HTTPS: `git remote set-url origin git@github.com:Fleetiqo/lautre-fleur.git`
-- Use a personal access token
+**Option B - Use SSH:**
+```bash
+cd lautre-fleur
+git remote set-url origin git@github.com:Fleetiqo/lautre-fleur.git
+```
 
-### Step 2: Set Default Branch on GitHub
-1. Go to https://github.com/Fleetiqo/lautre-fleur/settings/branches
-2. Change the default branch from `main` to `master`
-3. Delete the old `main` branch if desired
+**Option C - Personal Access Token:**
+Create a token at https://github.com/settings/tokens and use it as your password
 
-### Step 3: Enable GitHub Pages
+### Step 2: Push to GitHub
+```bash
+cd lautre-fleur
+git push origin main
+```
+
+### Step 3: Enable GitHub Pages (if not already done)
 1. Go to https://github.com/Fleetiqo/lautre-fleur/settings/pages
 2. Under "Source", select "GitHub Actions"
 3. Save
 
-### Step 4: Wait for Deployment
-- The workflow will run automatically after the push
+### Step 4: Done!
+- The workflow will run automatically on every push to main
 - Check progress at: https://github.com/Fleetiqo/lautre-fleur/actions
 - Site will be live at: https://fleetiqo.github.io/lautre-fleur/
 
-## Troubleshooting
-
-If the workflow doesn't run:
-- Make sure GitHub Pages is enabled with "GitHub Actions" as source
-- Check that the workflow file exists at `.github/workflows/deploy.yml`
-- Verify the workflow is configured for the `master` branch
-
-If the site doesn't load:
-- Check the Actions tab for build errors
-- Verify the base path in `vite.config.js` is set to `'./'`
-- Ensure `.nojekyll` file exists in the dist folder
+## What Was Fixed
+- Changed workflow to use `main` branch (not master)
+- Added missing "Setup Pages" step
+- Changed `cancel-in-progress` to `true`
+- Now matches the working configuration from your other sites
